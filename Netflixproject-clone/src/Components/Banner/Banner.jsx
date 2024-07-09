@@ -2,11 +2,12 @@ import React, {useEffect, useState} from 'react'
 import axios from "../../utils/axios"
 import request from "../../utils/requests"
 import requests from '../../utils/requests';
+import "./Banner.css"
 
 function Banner() {
     const [movie, setMovie] = useState({});
     useEffect(() => {
-      async function fetchData() {
+      (async function fetchData() {
        try {
              const request = await axios.get(requests.fetchNetflixOriginals);
              console.log(request)
@@ -16,19 +17,23 @@ function Banner() {
         } catch (error) {
         console.log('error', error);
         }
-    }
-  }), ([]);
+    }) ()
+  },[])
+  
+  function truncate(str, n) {
+    return str?.length > n ? str.substr(0, n-1)  + "..." : str;
+  }
 
   return (
-    <div>
-         className="banner"
+    <div className="banner" 
+         
       style={{
         backgroundSize: 'cover',
-        backgroundImage: url("https://image.tmdb.org/t/p/original/${movie?.backdrop_path}"),
+        backgroundImage:`url("https://image.tmdb.org/t/p/original/${movie?.backdrop_path}")`,
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
       }}
-    
+    >
       <div className="banner_contents">
            <h1 className="banner_title">
                 {movie?.title || movie?.name || movie?.original_name}
@@ -37,9 +42,8 @@ function Banner() {
              <button className="banner_button play">Play</button>
              <button className="banner_button">My List</button>
           </div>
-           {/* <h1 className="banner_description">
-          {movie?.overview ? movie.overview.slice(0, 150) + '...' : ''}
-          </h1> */}
+          <h1 classNames="banner_description">
+          {truncate(movie?.overview, 150)}</h1>
       </div>
       <div className="banner_fadeBottom" />
       
